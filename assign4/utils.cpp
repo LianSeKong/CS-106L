@@ -85,7 +85,6 @@ int main() {
     std::cerr << "Could not open file: " << kOutputFile << std::endl;
     return 1;
   }
-
   for (const auto& forecast : forecasts) {
     out << forecast.min_temp << ' ' << forecast.max_temp << ' ' << forecast.avg_temp << '\n';
   }
