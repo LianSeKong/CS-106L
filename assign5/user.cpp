@@ -15,8 +15,7 @@ User::User(const std::string& name)
  * Adds a friend to this User's list of friends.
  * @param name The name of the friend to add.
  */
-void
-User::add_friend(const std::string& name)
+void User::add_friend(const std::string& name)
 {
   if (_size == _capacity) {
     _capacity = 2 * _capacity + 1;
@@ -34,8 +33,7 @@ User::add_friend(const std::string& name)
 /**
  * Returns the name of this User.
  */
-std::string
-User::get_name() const
+std::string User::get_name() const
 {
   return _name;
 }
@@ -43,8 +41,7 @@ User::get_name() const
 /**
  * Returns the number of friends this User has.
  */
-size_t
-User::size() const
+size_t User::size() const
 {
   return _size;
 }
@@ -63,3 +60,63 @@ void User::set_friend(size_t index, const std::string& name)
  * STUDENT TODO:
  * The definitions for your custom operators and special member functions will go here!
  */
+
+
+std::ostream& operator<< (std::ostream &os, const User& user) {
+  std::string name = user.get_name();
+  os << "User(name=" << name << ", friends=[";
+
+  for (size_t i = 0; i < user.size(); i ++) {
+    if (i > 0) {
+      os << ", ";
+    }
+    os << user._friends[i];
+  }
+  os << "])";
+  return os;
+}
+
+User::~User() {
+  delete[] _friends;
+}
+
+User::User(const User& user) {
+
+  this->_name = user._name;
+  this->_size = user._size;
+  this->_capacity = user._capacity;
+  this->_friends = new std::string[user._capacity];
+  for (size_t i = 0; i < user._size; ++i) {
+    this->_friends[i] = user._friends[i];
+  }
+
+}
+
+
+User& User::operator= (const User& user) {
+  this->_name = user._name;
+  this->_size = user._size;
+  this->_capacity = user._capacity;
+  delete[] this->_friends;
+  this->_friends = new std::string[user._capacity];
+  for (size_t i = 0; i < user._size; ++i) {
+    this->_friends[i] = user._friends[i];
+  }
+  return *this;
+}
+
+
+User& User::operator+=(User& user) {
+  if (this != &user) {
+    this->add_friend(user.get_name());
+    user.add_friend(this->get_name());
+  }
+  return *this;
+}
+
+bool User::operator< (const User& user) const{
+  if (this != &user) {
+    return this->get_name() < user.get_name();
+  }
+  return false;
+}

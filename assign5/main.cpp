@@ -20,7 +20,7 @@
 
 #include "autograder/diagnostics.hpp"
 #include "autograder/utils.hpp"
-#include "user.h"
+#include "user.cpp"
 
 void test_memory_leak_exit_code() {
   std::cout << MemoryDiagnostics::MemoryGuard::get_exit_code() << "\n";
