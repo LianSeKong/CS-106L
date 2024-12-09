@@ -60,17 +60,13 @@ struct Course {
  */
 void parse_csv(std::string filename, std::vector<Course> &courses) {
   /* (STUDENT TODO) Your code goes here... */
-  std::fstream fs;
-  fs.open(filename, std::ios_base::in);
+  std::ifstream fs(filename);
   if (fs.is_open()) {
     std::string str;
     std::getline(fs, str); // filter header line
     while(std::getline(fs, str)) {
       auto course_vec = split(str, ',');
-      struct Course c;
-      c.title = course_vec[0];
-      c.number_of_units = course_vec[1];
-      c.quarter = course_vec[2];
+      Course c {course_vec[0], course_vec[1], course_vec[2]};
       courses.push_back(c);
     }
   }
@@ -97,8 +93,7 @@ void parse_csv(std::string filename, std::vector<Course> &courses) {
  */
 void write_courses_offered(std::vector<Course> &all_courses) {
   /* (STUDENT TODO) Your code goes here... */
-  std::fstream fs;
-  fs.open(COURSES_OFFERED_PATH, std::ios_base::out);
+  std::ofstream fs(COURSES_OFFERED_PATH);
   if (fs.is_open()) {
     fs << "Title,Number of Units,Quarter\n";
     int i = 0;
@@ -129,8 +124,7 @@ void write_courses_offered(std::vector<Course> &all_courses) {
  */
 void write_courses_not_offered(std::vector<Course> unlisted_courses) {
   /* (STUDENT TODO) Your code goes here... */
-  std::fstream fs;
-  fs.open(COURSES_NOT_OFFERED_PATH, std::ios_base::out);
+  std::ofstream fs(COURSES_NOT_OFFERED_PATH);
   if (fs.is_open()) {
     fs << "Title,Number of Units,Quarter\n";
     int i = 0;

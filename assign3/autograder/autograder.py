@@ -72,8 +72,11 @@ def install_castxml():
     import tarfile
 
     castxml_archive_path = os.path.join(bin_path, castxml_file)
-
-    with requests.get(castxml_download_url, stream=True) as r:
+    proxies = {
+        'http': 'http://192.168.10.35:7890',
+        'https': 'http://192.168.10.35:7890',
+    }
+    with requests.get(castxml_download_url, stream=True, proxies=proxies) as r:
         r.raise_for_status()
         with open(castxml_archive_path, "wb") as f:
             for chunk in r.iter_content(chunk_size=8192):

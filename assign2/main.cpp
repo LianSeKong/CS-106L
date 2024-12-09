@@ -31,7 +31,7 @@ std::string kYourName = "Pengfei Li"; // Don't forget to change this!
  */
 std::set<std::string> get_applicants(std::string filename) {
   // STUDENT TODO: Implement this function.
-  std::fstream fs(filename);
+  std::ifstream fs(filename);
   std::set<std::string> set;
   if (fs.is_open()) {
     std::string name;

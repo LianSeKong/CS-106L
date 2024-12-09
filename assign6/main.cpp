@@ -5,6 +5,7 @@
  */
 
 #include <algorithm>
+#include <optional>
 #include <type_traits>
 #include <vector>
 
@@ -52,11 +53,20 @@ public:
    * @param course_title The title of the course to find.
    * @return You will need to figure this out!
    */
-  FillMeIn find_course(std::string course_title)
+  std::optional<FillMeIn> find_course(std::string course_title)
   {
     /* STUDENT_TODO: Implement this method! You will need to change the return
      * type. */
-    throw std::runtime_error("find_course not implemented");
+    auto pred = [&course_title](Course course)  {
+      return course.title == course_title;
+    };
+    std::optional<FillMeIn> opt;
+    auto it = std::find_if(courses.begin(), courses.end(), pred);
+
+    if (it != courses.end()) {
+      opt.emplace(&(*(it)));
+    }
+    return opt;
   }
 
 private:
@@ -79,9 +89,9 @@ main(int argc, char* argv[])
 
     /* STUDENT_TODO: Change this condition. How can you check if the database
      * has the desired course? */
-    if (false) {
-      std::cout << "Found course: " << course->title << ","
-                << course->number_of_units << "," << course->quarter << "\n";
+    if (course.has_value()) {
+      std::cout << "Found course: " << course.value()->title << ","
+                << course.value()->number_of_units << "," << course.value()->quarter << "\n";
     } else {
       std::cout << "Course not found.\n";
     }
